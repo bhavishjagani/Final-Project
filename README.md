@@ -6,6 +6,7 @@ Python and Pygame, Pygame controls the graphics, event loop, and input easily fo
 
 Sketches
 
+<img width="1260" height="428" alt="Screenshot 2026-04-29 103620" src="https://github.com/user-attachments/assets/5b93ea37-ed92-4678-a697-f73320fae0f5" />
 
 
 
