@@ -2,7 +2,7 @@ import pygame, sys, time, math
 pygame.init()
 pygame.font.init()
  
-W, H = 1000, 820
+W, H = 1000, 830
 SQ = 72
 BOARD_X = 140
 BOARD_Y = (H - SQ * 8) // 2
@@ -25,10 +25,14 @@ INIT_BOARD = [
     ["wR","wN","wB","wQ","wK","wB","wN","wR"],
 ]
  
-def copy_board(b): return [row[:] for row in b]
-def color_of(p): return p[0] if p else None
-def type_of(p): return p[1:] if p else None
-def in_bounds(r, c): return 0 <= r < 8 and 0 <= c < 8
+def copy_board(b): 
+    return [row[:] for row in b]
+def color_of(p): 
+    return p[0] if p else None
+def type_of(p): 
+    return p[1:] if p else None
+def in_bounds(r, c): 
+    return 0 <= r < 8 and 0 <= c < 8
 
 def find_king(board, col):
     for r in range(8):
@@ -413,7 +417,7 @@ def draw_board(surf, game):
             y = BOARD_Y + lr * SQ
             s = pygame.Surface((SQ, SQ), pygame.SRCALPHA)
             pygame.draw.rect(s, (255, 215, 0, 60), (0, 0, SQ, SQ))
-            surf.blit(s, (x, y))
+            surf.blit(s, (x, y)) 
  
     if game.selected:
         sr, sc = game.selected
