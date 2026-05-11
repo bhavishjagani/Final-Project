@@ -10,11 +10,7 @@ BOARD_X = (W - BOARD_SIZE) // 2
 BOARD_Y = (H - BOARD_SIZE) // 2
 
 LIGHT = (240, 217, 181)
-<<<<<<< HEAD
 DARK  = (181, 136,  99) 
-=======
-DARK  = (181, 136,  99)
->>>>>>> 75031c5f6d585f5fa4312de1ca800eb30611bf3a
 
 screen = pygame.display.set_mode((W, H))
 pygame.display.set_caption("ChessMaster")
@@ -36,4 +32,4 @@ while True:
             pygame.draw.rect(screen, color, (x, y, SQUARE, SQUARE))
 
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(59)
