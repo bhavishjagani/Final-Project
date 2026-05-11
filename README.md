@@ -2,7 +2,7 @@ Description
 A full playable chess game built in Python using Pygame. Two players take turns on a local machine, moving pieces according to normal chess rules. The game has multiple game modes (human vs human, human vs AI), a choice of board themes, move highlighting, check/checkmate detection, and game state saving so players can continue a match later. The AI opponent uses a minimax algorithm with alpha-beta p`runing to play at the appropriate difficulty level.
 
 Technology 
-Python and Pygame, Pygame controls the graphics, event loop, and input easily for a 2D board game. No other languages are required, except maybe json for saving states.
+Python and Pygame,  Pygame controls the graphics, event loop, and input easily for a 2D board game. No other languages are required, except maybe json for saving states.
 
 Sketches
 
