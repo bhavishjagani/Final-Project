@@ -125,23 +125,19 @@ class Board:
         if not piece:
             return []
  
-        piece_col  = piece[0]
-        piece_typ  = piece[1:]
-        enemy_col  = opposite_color(piece_col)
-        legal      = []
+        piece_col = piece[0]
+        piece_typ = piece[1:]
+        enemy_col = opposite_color(piece_col)
+        legal = []
  
         for (target_row, target_col) in self._raw_moves(row, col, self.en_passant):
             new_squares = copy_board(self.squares)
-            if (
-                self.en_passant
-                and piece_typ == "P"
-                and (target_row, target_col) == self.en_passant
-            ):
+            if (self.en_passant and piece_typ == "P" and (target_row, target_col) == self.en_passant):
                 new_squares[row][target_col] = None
             new_squares[target_row][target_col] = piece
             new_squares[row][col] = None
  
-            temp_board           = Board.__new__(Board)
+            temp_board = Board.__new__(Board)
             temp_board.squares   = new_squares
             temp_board.en_passant = None
             temp_board.castling  = self.castling
@@ -151,19 +147,11 @@ class Board:
             if not temp_board.is_square_attacked(king_row, king_col, enemy_col):
                 legal.append((target_row, target_col))
  
-        if (
-            piece_typ == "K"
-            and not self.is_square_attacked(row, col, enemy_col)
-        ):
+        if (piece_typ == "K" and not self.is_square_attacked(row, col, enemy_col)):
             castle_row = 7 if piece_col == "w" else 0
             if row == castle_row and col == 4:
-                if (
-                    self.castling.get(piece_col + "K")
-                    and not self.squares[castle_row][5]
-                    and not self.squares[castle_row][6]
-                    and not self.is_square_attacked(castle_row, 5, enemy_col)
-                    and not self.is_square_attacked(castle_row, 6, enemy_col)
-                ):
+                if (self.castling.get(piece_col + "K") and not self.squares[castle_row][5] and not self.squares[castle_row][6] and not self.is_square_attacked(castle_row, 5, enemy_col)
+                    and not self.is_square_attacked(castle_row, 6, enemy_col)):
                     new_squares = copy_board(self.squares)
                     new_squares[castle_row][6] = piece_col + "K"
                     new_squares[castle_row][4] = None
@@ -176,14 +164,8 @@ class Board:
                     if not temp_board.is_square_attacked(king_row, king_col, enemy_col):
                         legal.append((castle_row, 6))
  
-                if (
-                    self.castling.get(piece_col + "Q")
-                    and not self.squares[castle_row][3]
-                    and not self.squares[castle_row][2]
-                    and not self.squares[castle_row][1]
-                    and not self.is_square_attacked(castle_row, 3, enemy_col)
-                    and not self.is_square_attacked(castle_row, 2, enemy_col)
-                ):
+                if (self.castling.get(piece_col + "Q") and not self.squares[castle_row][3] and not self.squares[castle_row][2] and not self.squares[castle_row][1]
+                    and not self.is_square_attacked(castle_row, 3, enemy_col) and not self.is_square_attacked(castle_row, 2, enemy_col)):
                     new_squares = copy_board(self.squares)
                     new_squares[castle_row][2] = piece_col + "K"
                     new_squares[castle_row][4] = None
@@ -214,15 +196,11 @@ class Board:
         return self.is_square_attacked(king_row, king_col, opposite_color(color))
  
     def apply_move(self, from_row, from_col, to_row, to_col):
-        piece     = self.squares[from_row][from_col]
+        piece = self.squares[from_row][from_col]
         piece_col = piece[0]
         piece_typ = piece[1:]
  
-        if (
-            piece_typ == "P"
-            and self.en_passant
-            and (to_row, to_col) == self.en_passant
-        ):
+        if (piece_typ == "P" and self.en_passant and (to_row, to_col) == self.en_passant):
             self.squares[from_row][to_col] = None
  
         self.squares[to_row][to_col]     = piece
@@ -253,12 +231,7 @@ class Board:
         return piece_typ == "P" and (to_row == 0 or to_row == 7)
  
     def is_insufficient_material(self):
-        all_pieces = [
-            self.squares[row][col]
-            for row in range(8)
-            for col in range(8)
-            if self.squares[row][col]
-        ]
+        all_pieces = [self.squares[row][col]for row in range(8) for col in range(8) if self.squares[row][col]]
         piece_types = [piece[1:] for piece in all_pieces]
         if len(all_pieces) == 2:
             return True
