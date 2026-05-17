@@ -55,7 +55,7 @@ class Board:
         piece_col  = piece[0]
         piece_typ  = piece[1:]
         enemy_col  = opposite_color(piece_col)
-        moves      = []
+        moves = []
  
         def slide(directions):
             for delta_row, delta_col in directions:
@@ -87,10 +87,7 @@ class Board:
                         moves.append((target_row, target_col))
  
         elif piece_typ == "N":
-            for delta_row, delta_col in [
-                (-2, -1), (-2, 1), (-1, -2), (-1, 2),
-                (1, -2),  (1, 2),  (2, -1),  (2, 1),
-            ]:
+            for delta_row, delta_col in [(-2, -1), (-2, 1), (-1, -2), (-1, 2), (1, -2),  (1, 2),  (2, -1),  (2, 1)]:
                 next_row = row + delta_row
                 next_col = col + delta_col
                 if in_bounds(next_row, next_col):
@@ -117,7 +114,6 @@ class Board:
                         target = self.squares[next_row][next_col]
                         if not target or target[0] == enemy_col:
                             moves.append((next_row, next_col))
- 
         return moves
  
     def legal_moves(self, row, col):
@@ -136,11 +132,10 @@ class Board:
                 new_squares[row][target_col] = None
             new_squares[target_row][target_col] = piece
             new_squares[row][col] = None
- 
             temp_board = Board.__new__(Board)
-            temp_board.squares   = new_squares
+            temp_board.squares = new_squares
             temp_board.en_passant = None
-            temp_board.castling  = self.castling
+            temp_board.castling = self.castling
             temp_board.last_move = None
  
             king_row, king_col = temp_board.find_king(piece_col)
@@ -155,12 +150,12 @@ class Board:
                     new_squares = copy_board(self.squares)
                     new_squares[castle_row][6] = piece_col + "K"
                     new_squares[castle_row][4] = None
-                    temp_board           = Board.__new__(Board)
-                    temp_board.squares   = new_squares
+                    temp_board  = Board.__new__(Board)
+                    temp_board.squares = new_squares
                     temp_board.en_passant = None
-                    temp_board.castling  = self.castling
+                    temp_board.castling = self.castling
                     temp_board.last_move = None
-                    king_row, king_col   = temp_board.find_king(piece_col)
+                    king_row, king_col = temp_board.find_king(piece_col)
                     if not temp_board.is_square_attacked(king_row, king_col, enemy_col):
                         legal.append((castle_row, 6))
  
@@ -183,11 +178,7 @@ class Board:
         for row in range(8):
             for col in range(8):
                 piece = self.squares[row][col]
-                if (
-                    piece
-                    and piece[0] == color
-                    and self.legal_moves(row, col)
-                ):
+                if (piece and piece[0] == color and self.legal_moves(row, col)):
                     return True
         return False
  
@@ -199,11 +190,9 @@ class Board:
         piece = self.squares[from_row][from_col]
         piece_col = piece[0]
         piece_typ = piece[1:]
- 
         if (piece_typ == "P" and self.en_passant and (to_row, to_col) == self.en_passant):
             self.squares[from_row][to_col] = None
- 
-        self.squares[to_row][to_col]     = piece
+        self.squares[to_row][to_col] = piece
         self.squares[from_row][from_col] = None
         self.last_move = ((from_row, from_col), (to_row, to_col))
         self.en_passant = None
@@ -227,7 +216,6 @@ class Board:
  
         if piece_typ == "P" and abs(to_row - from_row) == 2:
             self.en_passant = ((from_row + to_row) // 2, from_col)
- 
         return piece_typ == "P" and (to_row == 0 or to_row == 7)
  
     def is_insufficient_material(self):

@@ -6,7 +6,6 @@ WINDOW_HEIGHT = 780
 SQUARE_SIZE   = 76
 BOARD_OFFSET_X = 120
 BOARD_OFFSET_Y = (WINDOW_HEIGHT - SQUARE_SIZE * 8) // 2
- 
 COLOR_SQUARE_LIGHT = (235, 211, 174)
 COLOR_SQUARE_DARK = (165, 117, 74)
 COLOR_BACKGROUND = (18, 16, 22)
@@ -37,4 +36,4 @@ except:
  
 INITIAL_BOARD = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"], ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
     [None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None], [None, None, None, None, None, None, None, None],
-    ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"], ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],]
+    ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"], ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]]

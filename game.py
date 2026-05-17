@@ -15,9 +15,7 @@ class Clock:
         if self.active_color is None or self._tick_start is None:
             return
         elapsed = time_module.time() - self._tick_start
-        self.remaining[self.active_color] = max(
-            0, self.remaining[self.active_color] - elapsed
-        )
+        self.remaining[self.active_color] = max(0, self.remaining[self.active_color] - elapsed)
         self._tick_start = time_module.time()
  
     def switch(self, color):
@@ -41,7 +39,6 @@ class Clock:
  
     def is_low(self, color):
         return self.remaining[color] < 20
- 
  
 class Game:
     def __init__(self, minutes):
@@ -97,11 +94,9 @@ class Game:
             else:
                 self.status = "draw"
             self.clock.stop()
- 
         elif self.board.is_insufficient_material():
             self.status = "draw"
             self.clock.stop()
- 
         else:
             self.waiting_clock = True
  

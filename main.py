@@ -1,7 +1,6 @@
 import pygame
 import sys
- 
-from constants import (WINDOW_WIDTH, WINDOW_HEIGHT, SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y, COLOR_BACKGROUND, FONT_MEDIUM,)
+from constants import (WINDOW_WIDTH, WINDOW_HEIGHT, SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y, COLOR_BACKGROUND, FONT_MEDIUM)
 from game import Game
 from renderer import Renderer, Button
  
@@ -11,32 +10,15 @@ def main():
     pygame.display.set_caption("Chess")
     frame_clock = pygame.time.Clock()
     renderer = Renderer(screen)
- 
     time_options   = [1, 3, 5]
     selected_time  = 3
     button_center_y = WINDOW_HEIGHT // 2 - 80
- 
-    time_buttons = [
-        Button(
-            WINDOW_WIDTH // 2 - 170 + index * 116,
-            button_center_y,
-            100, 46,
-            f"{minutes} min",
-        )
-        for index, minutes in enumerate(time_options)
-    ]
-    start_button = Button(
-        WINDOW_WIDTH // 2 - 110,
-        button_center_y + 80,
-        220, 54,
-        "START GAME",
-        FONT_MEDIUM,
-        is_accent=True,
-    )
-    all_buttons     = time_buttons + [start_button]
+    time_buttons = [Button(WINDOW_WIDTH // 2 - 170 + index * 116, button_center_y, 100, 46, f"{minutes} min") for index, minutes in enumerate(time_options)]
+    start_button = Button(WINDOW_WIDTH // 2 - 110, button_center_y + 80, 220, 54, "START GAME", FONT_MEDIUM, is_accent=True)
+    all_buttons = time_buttons + [start_button]
     application_state = "menu"
-    active_game       = None
-    promote_hitboxes  = []
+    active_game = None
+    promote_hitboxes = []
  
     while True:
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -59,27 +41,21 @@ def main():
                         application_state = "game"
  
             elif application_state == "game":
-                if (
-                    event.type == pygame.KEYDOWN
-                    and event.key == pygame.K_r
-                ):
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_r):
                     application_state = "menu"
-                    active_game       = None
+                    active_game = None
  
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if active_game.promote_sq:
                         for (hit_x, hit_y, hit_w, hit_h, piece_type) in promote_hitboxes:
-                            if (
-                                hit_x <= mouse_x <= hit_x + hit_w
-                                and hit_y <= mouse_y <= hit_y + hit_h
-                            ):
+                            if (hit_x <= mouse_x <= hit_x + hit_w and hit_y <= mouse_y <= hit_y + hit_h):
                                 active_game.apply_promotion(piece_type)
                         continue
  
-                    panel_x     = BOARD_OFFSET_X + 8 * SQUARE_SIZE + 28
+                    panel_x  = BOARD_OFFSET_X + 8 * SQUARE_SIZE + 28
                     panel_width = WINDOW_WIDTH - panel_x - 18
                     clock_mid_y = BOARD_OFFSET_Y + 96 + (SQUARE_SIZE * 8 - 192) // 2
-                    clock_rect  = pygame.Rect(panel_x, clock_mid_y, panel_width, 52)
+                    clock_rect = pygame.Rect(panel_x, clock_mid_y, panel_width, 52)
  
                     if clock_rect.collidepoint(mouse_x, mouse_y):
                         active_game.press_clock()

@@ -72,8 +72,7 @@ class PieceRenderer:
             neck_y = int(center_y + size * 0.04)
             head_y = int(center_y - size * 0.12)
             draw_box(center_x, base_y, base_width, base_height, fill_color, outline_color, corner_radius=4)
-            neck_points = [(center_x - neck_width // 2, base_y - base_height // 2), (center_x + neck_width // 2, base_y - base_height // 2),
-                (center_x + int(neck_width * 0.6), neck_y), (center_x - int(neck_width * 0.6), neck_y),]
+            neck_points = [(center_x - neck_width // 2, base_y - base_height // 2), (center_x + neck_width // 2, base_y - base_height // 2), (center_x + int(neck_width * 0.6), neck_y), (center_x - int(neck_width * 0.6), neck_y),]
             draw_polygon(neck_points, fill_color, outline_color)
             draw_circle(center_x, head_y, head_radius, fill_color, outline_color)
  
@@ -172,26 +171,18 @@ class PieceRenderer:
                 (center_x + int(size * 0.26), int(center_y - size * 0.06)),
             ]
             draw_polygon(crown_points, fill_color, outline_color)
-            orb_positions = [
-                (-int(size * 0.26), -int(size * 0.28)),
-                (0,                 -int(size * 0.32)),
-                ( int(size * 0.26), -int(size * 0.28)),
-            ]
+            orb_positions = [(-int(size * 0.26), -int(size * 0.28)), (0, -int(size * 0.32)), ( int(size * 0.26), -int(size * 0.28))]
             for offset_x, offset_y in orb_positions:
                 draw_circle(center_x + offset_x, center_y + offset_y, int(size * 0.07), COLOR_ACCENT, outline_color, 1)
  
         elif piece_typ == "K":
             base_width  = int(size * 0.64)
             base_height = int(size * 0.15)
-            base_y      = int(center_y + size * 0.30)
-            cross_cy    = int(center_y - size * 0.28)
+            base_y  = int(center_y + size * 0.30)
+            cross_cy = int(center_y - size * 0.28)
             draw_box(center_x, base_y, base_width, base_height, fill_color, outline_color, corner_radius=4)
-            body_points = [
-                (center_x - int(size * 0.26), base_y - base_height // 2),
-                (center_x + int(size * 0.26), base_y - base_height // 2),
-                (center_x + int(size * 0.18), int(center_y - size * 0.04)),
-                (center_x - int(size * 0.18), int(center_y - size * 0.04)),
-            ]
+            body_points = [(center_x - int(size * 0.26), base_y - base_height // 2), (center_x + int(size * 0.26), base_y - base_height // 2),
+                (center_x + int(size * 0.18), int(center_y - size * 0.04)),(center_x - int(size * 0.18), int(center_y - size * 0.04)),]
             draw_polygon(body_points, fill_color, outline_color)
             draw_box(center_x, int(center_y - size * 0.12), int(size * 0.36), int(size * 0.22), fill_color, outline_color, corner_radius=3)
             draw_box(center_x, cross_cy, int(size * 0.12), int(size * 0.40), fill_color, outline_color, corner_radius=2)
@@ -242,16 +233,11 @@ class Renderer:
  
         if board.last_move:
             for (highlight_row, highlight_col) in board.last_move:
-                draw_rounded_rect(self.surface, (255, 210, 50), BOARD_OFFSET_X + highlight_col * SQUARE_SIZE, BOARD_OFFSET_Y + highlight_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=55,)
+                draw_rounded_rect(self.surface, (255, 210, 50), BOARD_OFFSET_X + highlight_col * SQUARE_SIZE, BOARD_OFFSET_Y + highlight_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=55)
  
         if game.selected_sq:
             selected_row, selected_col = game.selected_sq
-            draw_rounded_rect(
-                self.surface, COLOR_SELECTION,
-                BOARD_OFFSET_X + selected_col * SQUARE_SIZE,
-                BOARD_OFFSET_Y + selected_row * SQUARE_SIZE,
-                SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=130,
-            )
+            draw_rounded_rect(self.surface, COLOR_SELECTION, BOARD_OFFSET_X + selected_col * SQUARE_SIZE, BOARD_OFFSET_Y + selected_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=130)
             for (move_row, move_col) in game.legal_squares:
                 if board.get(move_row, move_col):
                     draw_rounded_rect(
@@ -267,7 +253,7 @@ class Renderer:
  
         if (game.board.is_in_check(game.current_turn)and game.status == "playing"):
             king_row, king_col = game.board.find_king(game.current_turn)
-            draw_rounded_rect(self.surface, COLOR_CHECK, BOARD_OFFSET_X + king_col * SQUARE_SIZE, BOARD_OFFSET_Y + king_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=150,)
+            draw_rounded_rect(self.surface, COLOR_CHECK, BOARD_OFFSET_X + king_col * SQUARE_SIZE, BOARD_OFFSET_Y + king_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=150)
  
         for row in range(8):
             for col in range(8):
@@ -284,7 +270,7 @@ class Renderer:
             rank_label = FONT_TINY.render(str(8 - index), True, rank_color)
             self.surface.blit(rank_label, (BOARD_OFFSET_X + 2, BOARD_OFFSET_Y + index * SQUARE_SIZE + 3))
  
-        pygame.draw.rect(self.surface, COLOR_BORDER, (BOARD_OFFSET_X - 4, BOARD_OFFSET_Y - 4, SQUARE_SIZE * 8 + 8, SQUARE_SIZE * 8 + 8), 4, border_radius=3,)
+        pygame.draw.rect(self.surface, COLOR_BORDER, (BOARD_OFFSET_X - 4, BOARD_OFFSET_Y - 4, SQUARE_SIZE * 8 + 8, SQUARE_SIZE * 8 + 8), 4, border_radius=3)
  
     def draw_panel(self, game):
         panel_x  = BOARD_OFFSET_X + 8 * SQUARE_SIZE + 28
@@ -310,18 +296,14 @@ class Renderer:
             draw_text(self.surface, status_text, FONT_TINY, COLOR_DIM, panel_x + panel_width // 2, clock_mid_y + 70)
  
     def _draw_timer(self, game, color, x, y, width, height):
-        is_active = (
-            game.current_turn == color
-            and game.status == "playing"
-            and not game.waiting_clock
-        )
-        is_low          = game.clock.is_low(color)
+        is_active = (game.current_turn == color and game.status == "playing" and not game.waiting_clock)
+        is_low = game.clock.is_low(color)
         background_color = (248, 244, 236) if color == "w" else (32, 29, 40)
-        text_color       = COLOR_BACKGROUND if color == "w" else COLOR_TEXT
+        text_color = COLOR_BACKGROUND if color == "w" else COLOR_TEXT
  
         if is_low and is_active:
             background_color = COLOR_DANGER
-            text_color       = (255, 255, 255)
+            text_color = (255, 255, 255)
  
         draw_rounded_rect(self.surface, background_color, x, y, width, height, radius=12)
  
