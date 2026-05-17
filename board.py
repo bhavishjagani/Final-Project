@@ -17,10 +17,10 @@ def in_bounds(row, col):
  
 class Board:
     def __init__(self):
-        self.squares    = copy_board(INITIAL_BOARD)
+        self.squares = copy_board(INITIAL_BOARD)
         self.en_passant = None
-        self.castling   = {"wK": True, "wQ": True, "bK": True, "bQ": True}
-        self.last_move  = None
+        self.castling = {"wK": True, "wQ": True, "bK": True, "bQ": True}
+        self.last_move = None
  
     def get(self, row, col):
         return self.squares[row][col]
@@ -74,25 +74,16 @@ class Board:
         if piece_typ == "P":
             direction = -1 if piece_col == "w" else 1
             start_row = 6 if piece_col == "w" else 1
-            if (
-                in_bounds(row + direction, col)
-                and not self.squares[row + direction][col]
-            ):
+            if (in_bounds(row + direction, col) and not self.squares[row + direction][col]):
                 moves.append((row + direction, col))
-                if (
-                    row == start_row
-                    and not self.squares[row + 2 * direction][col]
-                ):
+                if (row == start_row and not self.squares[row + 2 * direction][col]):
                     moves.append((row + 2 * direction, col))
             for col_delta in [-1, 1]:
                 target_row = row + direction
                 target_col = col + col_delta
                 if in_bounds(target_row, target_col):
                     target = self.squares[target_row][target_col]
-                    if (
-                        (target and target[0] == enemy_col)
-                        or (en_passant_square and (target_row, target_col) == en_passant_square)
-                    ):
+                    if ((target and target[0] == enemy_col)or (en_passant_square and (target_row, target_col) == en_passant_square)):
                         moves.append((target_row, target_col))
  
         elif piece_typ == "N":
@@ -196,15 +187,14 @@ class Board:
                     new_squares = copy_board(self.squares)
                     new_squares[castle_row][2] = piece_col + "K"
                     new_squares[castle_row][4] = None
-                    temp_board           = Board.__new__(Board)
-                    temp_board.squares   = new_squares
+                    temp_board = Board.__new__(Board)
+                    temp_board.squares = new_squares
                     temp_board.en_passant = None
-                    temp_board.castling  = self.castling
-                    temp_board.last_move = None
-                    king_row, king_col   = temp_board.find_king(piece_col)
+                    temp_board.castling = self.castling
+                    temp_board.last_move= None
+                    king_row, king_col  = temp_board.find_king(piece_col)
                     if not temp_board.is_square_attacked(king_row, king_col, enemy_col):
                         legal.append((castle_row, 2))
- 
         return legal
  
     def has_any_legal_move(self, color):

@@ -1,10 +1,9 @@
 import time as time_module
 from board import Board, opposite_color
  
- 
 class Clock:
     def __init__(self, minutes):
-        self.remaining    = {"w": minutes * 60.0, "b": minutes * 60.0}
+        self.remaining = {"w": minutes * 60.0, "b": minutes * 60.0}
         self.active_color = None
         self._tick_start  = None
  
@@ -15,7 +14,7 @@ class Clock:
     def tick(self):
         if self.active_color is None or self._tick_start is None:
             return
-        elapsed           = time_module.time() - self._tick_start
+        elapsed = time_module.time() - self._tick_start
         self.remaining[self.active_color] = max(
             0, self.remaining[self.active_color] - elapsed
         )
@@ -46,37 +45,29 @@ class Clock:
  
 class Game:
     def __init__(self, minutes):
-        self.board         = Board()
+        self.board = Board()
         self.current_turn  = "w"
-        self.clock         = Clock(minutes)
-        self.selected_sq   = None
+        self.clock = Clock(minutes)
+        self.selected_sq = None
         self.legal_squares = []
-        self.status        = "playing"
-        self.promote_sq    = None
+        self.status = "playing"
+        self.promote_sq = None
         self.waiting_clock = False
  
     def click_square(self, row, col):
-        if (
-            self.status != "playing"
-            or self.waiting_clock
-        ):
+        if (self.status != "playing" or self.waiting_clock):
             return
  
         if self.selected_sq:
             if (row, col) in self.legal_squares:
-                self._execute_move(
-                    self.selected_sq[0],
-                    self.selected_sq[1],
-                    row,
-                    col,
-                )
+                self._execute_move(self.selected_sq[0], self.selected_sq[1], row, col,)
                 return
-            self.selected_sq   = None
+            self.selected_sq = None
             self.legal_squares = []
  
         piece = self.board.get(row, col)
         if piece and piece[0] == self.current_turn:
-            self.selected_sq   = (row, col)
+            self.selected_sq = (row, col)
             self.legal_squares = self.board.legal_moves(row, col)
  
     def _execute_move(self, from_row, from_col, to_row, to_col):
@@ -115,20 +106,14 @@ class Game:
             self.waiting_clock = True
  
     def press_clock(self):
-        if (
-            self.status != "playing"
-            or not self.waiting_clock
-        ):
+        if (self.status != "playing" or not self.waiting_clock):
             return
         self.waiting_clock = False
         self.current_turn  = opposite_color(self.current_turn)
         self.clock.switch(self.current_turn)
  
     def tick(self):
-        if (
-            self.status != "playing"
-            or self.waiting_clock
-        ):
+        if (self.status != "playing" or self.waiting_clock):
             return
         self.clock.tick()
         flagged = self.clock.get_flagged()

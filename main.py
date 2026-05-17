@@ -1,21 +1,16 @@
 import pygame
 import sys
  
-from constants import (
-    WINDOW_WIDTH, WINDOW_HEIGHT,
-    SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y,
-    COLOR_BACKGROUND,
-    FONT_MEDIUM,
-)
+from constants import (WINDOW_WIDTH, WINDOW_HEIGHT, SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y, COLOR_BACKGROUND, FONT_MEDIUM,)
 from game import Game
 from renderer import Renderer, Button
  
 def main():
     pygame.init()
-    screen   = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Chess")
     frame_clock = pygame.time.Clock()
-    renderer    = Renderer(screen)
+    renderer = Renderer(screen)
  
     time_options   = [1, 3, 5]
     selected_time  = 3
@@ -95,10 +90,7 @@ def main():
                     clicked_col = board_rel_x // SQUARE_SIZE
                     clicked_row = board_rel_y // SQUARE_SIZE
  
-                    if (
-                        0 <= clicked_row < 8
-                        and 0 <= clicked_col < 8
-                    ):
+                    if (0 <= clicked_row < 8 and 0 <= clicked_col < 8):
                         active_game.click_square(clicked_row, clicked_col)
  
         if application_state == "menu":
@@ -124,6 +116,4 @@ def main():
             pygame.display.flip()
  
         frame_clock.tick(60)
- 
- 
 main()

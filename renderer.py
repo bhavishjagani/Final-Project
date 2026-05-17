@@ -1,20 +1,10 @@
 import pygame
-from constants import (
-    WINDOW_WIDTH, WINDOW_HEIGHT,
-    SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y,
-    COLOR_SQUARE_LIGHT, COLOR_SQUARE_DARK,
-    COLOR_BACKGROUND, COLOR_PANEL, COLOR_CARD,
-    COLOR_ACCENT, COLOR_TEXT, COLOR_DIM,
-    COLOR_DANGER, COLOR_SELECTION, COLOR_CHECK, COLOR_BORDER,
-    COLOR_WHITE_PIECE, COLOR_BLACK_PIECE,
-    COLOR_WHITE_OUTLINE, COLOR_BLACK_OUTLINE,
-    FONT_LARGE, FONT_MEDIUM, FONT_SMALL, FONT_TINY,
-)
- 
+from constants import (WINDOW_WIDTH, WINDOW_HEIGHT, SQUARE_SIZE, BOARD_OFFSET_X, BOARD_OFFSET_Y, COLOR_SQUARE_LIGHT, COLOR_SQUARE_DARK, COLOR_BACKGROUND, COLOR_PANEL, COLOR_CARD,
+    COLOR_ACCENT, COLOR_TEXT, COLOR_DIM, COLOR_DANGER, COLOR_SELECTION, COLOR_CHECK, COLOR_BORDER, COLOR_WHITE_PIECE, COLOR_BLACK_PIECE, COLOR_WHITE_OUTLINE, COLOR_BLACK_OUTLINE, FONT_LARGE, FONT_MEDIUM, FONT_SMALL, FONT_TINY,)
  
 def draw_text(surface, text, font, color, center_x, center_y, anchor="c"):
     rendered = font.render(str(text), True, color)
-    rect     = rendered.get_rect()
+    rect = rendered.get_rect()
     if anchor == "c":
         rect.center = (center_x, center_y)
     elif anchor == "r":
@@ -22,7 +12,6 @@ def draw_text(surface, text, font, color, center_x, center_y, anchor="c"):
     elif anchor == "l":
         rect.midleft = (center_x, center_y)
     surface.blit(rendered, rect)
- 
  
 def draw_rounded_rect(surface, color, x, y, width, height, radius=8, border_width=0, border_color=None, alpha=None):
     if alpha is not None:
@@ -33,7 +22,6 @@ def draw_rounded_rect(surface, color, x, y, width, height, radius=8, border_widt
     pygame.draw.rect(surface, color, (x, y, width, height), border_radius=radius)
     if border_width and border_color:
         pygame.draw.rect(surface, border_color, (x, y, width, height), border_width, border_radius=radius)
- 
  
 class PieceRenderer:
     _surface_cache = {}
@@ -47,13 +35,13 @@ class PieceRenderer:
  
     @classmethod
     def _build_surface(cls, piece, size):
-        surface    = pygame.Surface((size, size), pygame.SRCALPHA)
-        piece_col  = piece[0]
-        piece_typ  = piece[1:]
-        fill_color   = COLOR_WHITE_PIECE if piece_col == "w" else COLOR_BLACK_PIECE
+        surface = pygame.Surface((size, size), pygame.SRCALPHA)
+        piece_col = piece[0]
+        piece_typ = piece[1:]
+        fill_color = COLOR_WHITE_PIECE if piece_col == "w" else COLOR_BLACK_PIECE
         outline_color = COLOR_WHITE_OUTLINE if piece_col == "w" else COLOR_BLACK_OUTLINE
-        center_x   = size // 2
-        center_y   = size // 2
+        center_x = size // 2
+        center_y = size // 2
  
         def draw_circle(x, y, radius, fill, outline=None, line_width=2):
             if radius < 1:
@@ -76,20 +64,16 @@ class PieceRenderer:
                 pygame.draw.rect(surface, outline, rect, line_width, border_radius=corner_radius)
  
         if piece_typ == "P":
-            base_width  = int(size * 0.52)
+            base_width = int(size * 0.52)
             base_height = int(size * 0.18)
-            neck_width  = int(size * 0.28)
+            neck_width = int(size * 0.28)
             head_radius = int(size * 0.22)
-            base_y      = int(center_y + size * 0.28)
-            neck_y      = int(center_y + size * 0.04)
-            head_y      = int(center_y - size * 0.12)
+            base_y = int(center_y + size * 0.28)
+            neck_y = int(center_y + size * 0.04)
+            head_y = int(center_y - size * 0.12)
             draw_box(center_x, base_y, base_width, base_height, fill_color, outline_color, corner_radius=4)
-            neck_points = [
-                (center_x - neck_width // 2, base_y - base_height // 2),
-                (center_x + neck_width // 2, base_y - base_height // 2),
-                (center_x + int(neck_width * 0.6), neck_y),
-                (center_x - int(neck_width * 0.6), neck_y),
-            ]
+            neck_points = [(center_x - neck_width // 2, base_y - base_height // 2), (center_x + neck_width // 2, base_y - base_height // 2),
+                (center_x + int(neck_width * 0.6), neck_y), (center_x - int(neck_width * 0.6), neck_y),]
             draw_polygon(neck_points, fill_color, outline_color)
             draw_circle(center_x, head_y, head_radius, fill_color, outline_color)
  
@@ -100,10 +84,10 @@ class PieceRenderer:
             body_height = int(size * 0.44)
             top_width   = int(size * 0.54)
             top_height  = int(size * 0.14)
-            base_y      = int(center_y + size * 0.28)
-            body_y      = int(center_y + size * 0.00)
-            top_y       = int(center_y - size * 0.24)
-            merlon_width  = int(size * 0.13)
+            base_y  = int(center_y + size * 0.28)
+            body_y = int(center_y + size * 0.00)
+            top_y = int(center_y - size * 0.24)
+            merlon_width = int(size * 0.13)
             merlon_height = int(size * 0.2)
             draw_box(center_x, base_y, base_width, base_height, fill_color, outline_color, corner_radius=4)
             draw_box(center_x, body_y, body_width, body_height, fill_color, outline_color, corner_radius=3)
@@ -145,14 +129,14 @@ class PieceRenderer:
             draw_polygon(nostril_points, outline_color)
  
         elif piece_typ == "B":
-            base_width    = int(size * 0.60)
-            base_height   = int(size * 0.15)
-            collar_width  = int(size * 0.42)
+            base_width = int(size * 0.60)
+            base_height  = int(size * 0.15)
+            collar_width = int(size * 0.42)
             collar_height = int(size * 0.12)
-            base_y        = int(center_y + size * 0.30)
-            collar_y      = int(center_y + size * 0.14)
-            head_radius   = int(size * 0.18)
-            head_y        = int(center_y - size * 0.22)
+            base_y = int(center_y + size * 0.30)
+            collar_y  = int(center_y + size * 0.14)
+            head_radius = int(size * 0.18)
+            head_y = int(center_y - size * 0.22)
             draw_box(center_x, base_y, base_width, base_height, fill_color, outline_color, corner_radius=4)
             draw_box(center_x, collar_y, collar_width, collar_height, fill_color, outline_color, corner_radius=3)
             body_points = [
@@ -164,12 +148,7 @@ class PieceRenderer:
             draw_polygon(body_points, fill_color, outline_color)
             draw_circle(center_x, head_y, head_radius, fill_color, outline_color)
             draw_circle(center_x, int(center_y - size * 0.40), int(size * 0.06), outline_color)
-            pygame.draw.line(
-                surface, outline_color,
-                (center_x - int(size * 0.12), int(center_y - size * 0.18)),
-                (center_x + int(size * 0.12), int(center_y - size * 0.26)),
-                2,
-            )
+            pygame.draw.line(surface, outline_color, (center_x - int(size * 0.12), int(center_y - size * 0.18)), (center_x + int(size * 0.12), int(center_y - size * 0.26)), 2,)
  
         elif piece_typ == "Q":
             base_width  = int(size * 0.64)
@@ -217,28 +196,26 @@ class PieceRenderer:
             draw_box(center_x, int(center_y - size * 0.12), int(size * 0.36), int(size * 0.22), fill_color, outline_color, corner_radius=3)
             draw_box(center_x, cross_cy, int(size * 0.12), int(size * 0.40), fill_color, outline_color, corner_radius=2)
             draw_box(center_x, cross_cy - int(size * 0.06), int(size * 0.32), int(size * 0.12), fill_color, outline_color, corner_radius=2)
- 
         return surface
- 
- 
+    
 class Button:
     def __init__(self, x, y, width, height, text, font=None, is_accent=False):
-        self.rect      = pygame.Rect(x, y, width, height)
-        self.text      = text
-        self.font      = font or FONT_SMALL
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.font = font or FONT_SMALL
         self.is_accent = is_accent
-        self.hovered   = False
+        self.hovered = False
  
     def draw(self, surface, selected=False):
         if selected or (self.is_accent and not self.hovered):
             background_color = COLOR_ACCENT
-            text_color       = COLOR_BACKGROUND
+            text_color = COLOR_BACKGROUND
         elif self.hovered:
             background_color = (55, 52, 68)
-            text_color       = COLOR_TEXT
+            text_color = COLOR_TEXT
         else:
             background_color = COLOR_CARD
-            text_color       = COLOR_TEXT
+            text_color = COLOR_TEXT
  
         pygame.draw.rect(surface, background_color, self.rect, border_radius=10)
         pygame.draw.rect(surface, COLOR_BORDER, self.rect, 1, border_radius=10)
@@ -250,33 +227,22 @@ class Button:
     def is_clicked(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)
  
- 
 class Renderer:
     def __init__(self, surface):
         self.surface = surface
  
     def draw_board(self, game):
         board = game.board
- 
         for row in range(8):
             for col in range(8):
                 square_x = BOARD_OFFSET_X + col * SQUARE_SIZE
                 square_y = BOARD_OFFSET_Y + row * SQUARE_SIZE
-                square_color = (
-                    COLOR_SQUARE_LIGHT
-                    if (row + col) % 2 == 0
-                    else COLOR_SQUARE_DARK
-                )
+                square_color = (COLOR_SQUARE_LIGHT if (row + col) % 2 == 0 else COLOR_SQUARE_DARK)
                 pygame.draw.rect(self.surface, square_color, (square_x, square_y, SQUARE_SIZE, SQUARE_SIZE))
  
         if board.last_move:
             for (highlight_row, highlight_col) in board.last_move:
-                draw_rounded_rect(
-                    self.surface, (255, 210, 50),
-                    BOARD_OFFSET_X + highlight_col * SQUARE_SIZE,
-                    BOARD_OFFSET_Y + highlight_row * SQUARE_SIZE,
-                    SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=55,
-                )
+                draw_rounded_rect(self.surface, (255, 210, 50), BOARD_OFFSET_X + highlight_col * SQUARE_SIZE, BOARD_OFFSET_Y + highlight_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=55,)
  
         if game.selected_sq:
             selected_row, selected_col = game.selected_sq
@@ -299,17 +265,9 @@ class Renderer:
                     pygame.draw.circle(dot_surface, (100, 200, 80, 110), (SQUARE_SIZE // 2, SQUARE_SIZE // 2), SQUARE_SIZE // 5)
                     self.surface.blit(dot_surface, (BOARD_OFFSET_X + move_col * SQUARE_SIZE, BOARD_OFFSET_Y + move_row * SQUARE_SIZE))
  
-        if (
-            game.board.is_in_check(game.current_turn)
-            and game.status == "playing"
-        ):
+        if (game.board.is_in_check(game.current_turn)and game.status == "playing"):
             king_row, king_col = game.board.find_king(game.current_turn)
-            draw_rounded_rect(
-                self.surface, COLOR_CHECK,
-                BOARD_OFFSET_X + king_col * SQUARE_SIZE,
-                BOARD_OFFSET_Y + king_row * SQUARE_SIZE,
-                SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=150,
-            )
+            draw_rounded_rect(self.surface, COLOR_CHECK, BOARD_OFFSET_X + king_col * SQUARE_SIZE, BOARD_OFFSET_Y + king_row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, radius=0, alpha=150,)
  
         for row in range(8):
             for col in range(8):
@@ -326,24 +284,20 @@ class Renderer:
             rank_label = FONT_TINY.render(str(8 - index), True, rank_color)
             self.surface.blit(rank_label, (BOARD_OFFSET_X + 2, BOARD_OFFSET_Y + index * SQUARE_SIZE + 3))
  
-        pygame.draw.rect(
-            self.surface, COLOR_BORDER,
-            (BOARD_OFFSET_X - 4, BOARD_OFFSET_Y - 4, SQUARE_SIZE * 8 + 8, SQUARE_SIZE * 8 + 8),
-            4, border_radius=3,
-        )
+        pygame.draw.rect(self.surface, COLOR_BORDER, (BOARD_OFFSET_X - 4, BOARD_OFFSET_Y - 4, SQUARE_SIZE * 8 + 8, SQUARE_SIZE * 8 + 8), 4, border_radius=3,)
  
     def draw_panel(self, game):
-        panel_x     = BOARD_OFFSET_X + 8 * SQUARE_SIZE + 28
+        panel_x  = BOARD_OFFSET_X + 8 * SQUARE_SIZE + 28
         panel_width = WINDOW_WIDTH - panel_x - 18
-        panel_y     = BOARD_OFFSET_Y
+        panel_y  = BOARD_OFFSET_Y
  
         self._draw_timer(game, "b", panel_x, panel_y, panel_width, 96)
         self._draw_timer(game, "w", panel_x, panel_y + SQUARE_SIZE * 8 - 96, panel_width, 96)
  
-        clock_mid_y   = panel_y + 96 + (SQUARE_SIZE * 8 - 192) // 2
-        clock_active  = game.waiting_clock and game.status == "playing"
-        button_color  = COLOR_ACCENT if clock_active else COLOR_CARD
-        label_color   = COLOR_BACKGROUND if clock_active else COLOR_DIM
+        clock_mid_y = panel_y + 96 + (SQUARE_SIZE * 8 - 192) // 2
+        clock_active = game.waiting_clock and game.status == "playing"
+        button_color = COLOR_ACCENT if clock_active else COLOR_CARD
+        label_color = COLOR_BACKGROUND if clock_active else COLOR_DIM
  
         draw_rounded_rect(self.surface, button_color, panel_x, clock_mid_y, panel_width, 52, radius=10)
         if clock_active:
@@ -389,29 +343,20 @@ class Renderer:
  
     def draw_promote_menu(self, game):
         promotion_options = ["Q", "R", "B", "N"]
-        option_names      = {"Q": "Queen", "R": "Rook", "B": "Bishop", "N": "Knight"}
-        button_width      = 90
-        button_height     = 100
-        gap               = 10
-        total_width       = len(promotion_options) * (button_width + gap) - gap
-        start_x           = WINDOW_WIDTH // 2 - total_width // 2
-        start_y           = WINDOW_HEIGHT // 2 - button_height // 2 - 30
+        option_names = {"Q": "Queen", "R": "Rook", "B": "Bishop", "N": "Knight"}
+        button_width = 90
+        button_height = 100
+        gap = 10
+        total_width = len(promotion_options) * (button_width + gap) - gap
+        start_x = WINDOW_WIDTH // 2 - total_width // 2
+        start_y = WINDOW_HEIGHT // 2 - button_height // 2 - 30
  
         overlay = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.SRCALPHA)
         overlay.fill((10, 8, 16, 185))
         self.surface.blit(overlay, (0, 0))
  
-        draw_rounded_rect(
-            self.surface, COLOR_PANEL,
-            start_x - 24, start_y - 56,
-            total_width + 48, button_height + 120,
-            radius=16,
-        )
-        pygame.draw.rect(
-            self.surface, COLOR_BORDER,
-            (start_x - 24, start_y - 56, total_width + 48, button_height + 120),
-            2, border_radius=16,
-        )
+        draw_rounded_rect(self.surface, COLOR_PANEL, start_x - 24, start_y - 56, total_width + 48, button_height + 120, radius=16,)
+        pygame.draw.rect(self.surface, COLOR_BORDER, (start_x - 24, start_y - 56, total_width + 48, button_height + 120), 2, border_radius=16,)
         draw_text(self.surface, "Choose promotion", FONT_SMALL, COLOR_ACCENT, WINDOW_WIDTH // 2, start_y - 28)
  
         clickable_rects = []
@@ -420,8 +365,8 @@ class Renderer:
             draw_rounded_rect(self.surface, COLOR_CARD, button_x, start_y, button_width, button_height, radius=10)
             pygame.draw.rect(self.surface, COLOR_BORDER, (button_x, start_y, button_width, button_height), 1, border_radius=10)
             piece_surface = PieceRenderer.get_surface(game.current_turn + piece_typ, SQUARE_SIZE)
-            offset_x      = (button_width - SQUARE_SIZE) // 2
-            offset_y      = (button_height - SQUARE_SIZE) // 2 - 8
+            offset_x = (button_width - SQUARE_SIZE) // 2
+            offset_y = (button_height - SQUARE_SIZE) // 2 - 8
             self.surface.blit(piece_surface, (button_x + offset_x, start_y + offset_y))
             draw_text(self.surface, option_names[piece_typ], FONT_TINY, COLOR_DIM, button_x + button_width // 2, start_y + button_height - 14)
             clickable_rects.append((button_x, start_y, button_width, button_height, piece_typ))
@@ -432,13 +377,13 @@ class Renderer:
         self.surface.fill(COLOR_BACKGROUND)
         panel_width  = 460
         panel_height = 520
-        panel_x      = WINDOW_WIDTH // 2 - panel_width // 2
-        panel_y      = WINDOW_HEIGHT // 2 - panel_height // 2
+        panel_x = WINDOW_WIDTH // 2 - panel_width // 2
+        panel_y = WINDOW_HEIGHT // 2 - panel_height // 2
  
         draw_rounded_rect(self.surface, COLOR_PANEL, panel_x, panel_y, panel_width, panel_height, radius=20)
         pygame.draw.rect(self.surface, COLOR_BORDER, (panel_x, panel_y, panel_width, panel_height), 2, border_radius=20)
  
-        draw_text(self.surface, "CHESS",      FONT_LARGE,  COLOR_ACCENT, WINDOW_WIDTH // 2, panel_y + 72)
+        draw_text(self.surface, "CHESS", FONT_LARGE,  COLOR_ACCENT, WINDOW_WIDTH // 2, panel_y + 72)
         draw_text(self.surface, "Two Player", FONT_SMALL,  COLOR_DIM,    WINDOW_WIDTH // 2, panel_y + 116)
         pygame.draw.line(self.surface, COLOR_BORDER, (panel_x + 40, panel_y + 148), (panel_x + panel_width - 40, panel_y + 148), 1)
         draw_text(self.surface, "TIME CONTROL", FONT_TINY, COLOR_DIM,    WINDOW_WIDTH // 2, panel_y + 176)
