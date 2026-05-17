@@ -10,7 +10,6 @@ from constants import (
 from game import Game
 from renderer import Renderer, Button
  
- 
 def main():
     pygame.init()
     screen   = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
